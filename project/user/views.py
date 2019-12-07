@@ -10,10 +10,10 @@ from user.schemas import UserSchema
 from utils.response import BaseResponse
 
 
-bp = Blueprint("user", url_prefix="/api/v1")
+bp = Blueprint("user", url_prefix="/api/v1/user")
 
 
-@describe(paths="all", methods="GET")
+@describe(paths="/all", methods="GET")
 @protected()
 async def get_users(request):
     all_users = await db.all(User.query)
@@ -22,7 +22,7 @@ async def get_users(request):
     return result
 
 
-@describe(paths="register", methods="POST")
+@describe(paths="/register", methods="POST")
 async def register(request, username: str, password: str):
     await User.create(username=username, password=password)
     return BaseResponse().dump({"success": True})
