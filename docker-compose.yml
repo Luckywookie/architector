@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+
+  postgres:
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=pwd0123456789
+      - POSTGRES_DB=sanic_postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  market:
+    build:
+      context: .
+    volumes:
+      - ./:/src
+    restart: always
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+    working_dir: /src
+    ports:
+      - "8888:8888"
+    links:
+      - postgres
+
+    command: bash -c "pipenv install --system -d && python -m project"
+
