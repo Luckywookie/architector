@@ -28,3 +28,8 @@ Run `git clone git@github.com:Luckywookie/architector.git`
 ### Docker compose start
 
 Run `docker-compose up -d`
+
+
+### REST API Documentation and Test
+
+Go `http://host:8888/swagger`
