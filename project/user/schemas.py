@@ -4,7 +4,7 @@ from project.utils.response import BaseResponse
 
 
 class UserSchema(Schema):
-    username = fields.Str()
+    username = fields.String()
 
 
 class UsersResponse(BaseResponse):

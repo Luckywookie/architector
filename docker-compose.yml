@@ -23,6 +23,8 @@ services:
 #      postgres:
 #        condition: service_healthy
     working_dir: /src
+#    environment:
+#      - SANIC_DB_HOST=postgres
     ports:
       - "8888:8888"
     links:

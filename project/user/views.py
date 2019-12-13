@@ -10,7 +10,7 @@ from user.schemas import UserSchema
 from utils.response import BaseResponse
 
 
-bp = Blueprint("user", url_prefix="/api/v1/user")
+users = Blueprint("user", url_prefix="/api/v1/user")
 
 
 @describe(paths="/all", methods="GET")
@@ -36,6 +36,6 @@ async def get_user(request: Request):
     return schema.dump(user)
 
 
-add_route(bp, get_users)
-add_route(bp, register)
-add_route(bp, get_user)
+add_route(users, get_users)
+add_route(users, register)
+add_route(users, get_user)
