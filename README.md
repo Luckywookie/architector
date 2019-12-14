@@ -33,3 +33,104 @@ Run `docker-compose up -d`
 ### REST API Documentation and Test
 
 Go `http://host:8888/swagger`
+
+
+### Request & Response Examples
+
+#### POST /user/register
+
+Example: http://host:port/api/v1/user/register
+
+Parameters:
+
+|   **Name**    |   **Type**    | **Mandatory** |
+| ------------- | ------------- | ------------- |
+|   username    |    STRING     |      YES      |
+|   password    |    STRING     |      YES      |
+
+Response SUCCESS body:
+
+`
+{
+    "success": true
+}
+`
+
+#### POST /auth
+
+Example: http://host:port/api/v1/auth
+
+Parameters:
+
+|   **Name**    |   **Type**    | **Mandatory** |
+| ------------- | ------------- | ------------- |
+|   username    |    STRING     |      YES      |
+|   password    |    STRING     |      YES      |
+
+Response SUCCESS body:
+
+`
+{
+    "access_token": "string"
+}
+`
+
+#### POST /logout
+
+Example: http://host:port/api/v1/logout
+
+
+#### GET /user?username=<username>
+
+Example: http://host:port/api/v1/user?username=<username>
+
+Parameters:
+
+|   **Name**    |   **Type**    | **Mandatory** |
+| ------------- | ------------- | ------------- |
+|   username    |    STRING     |      YES      |
+
+Response SUCCESS body:
+
+`
+{
+    "username": "test-user"
+}
+`
+
+
+#### GET /user/all
+
+Example: http://host:port/api/v1/user/all
+
+Parameters: NO
+
+Response SUCCESS body:
+
+`
+[
+    {
+        "username": "test"
+    },
+    {
+        "username": "test-user"
+    }
+]
+`
+
+### Catalog
+
+#### GET /products
+
+Example: http://host:port/api/v1/products
+
+Parameters: NO
+
+Response SUCCESS body:
+
+`
+[]
+`
+
+
+

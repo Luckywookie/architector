@@ -4,30 +4,42 @@ from sanic_jwt import protected
 from sanic_transmute import add_route
 from transmute_core import describe
 
-from db import db
-from order.models import Order
-from order.schemas import OrderSchema
-from utils.response import BaseResponse
+from order.models import Order, OrderProducts
+from order.schemas import OrderSchema, NewOrderSchema
 
 
 orders = Blueprint("order", url_prefix="/api/v1/order")
 
 
-@describe(paths="/order", methods="GET")
+@describe(paths="/all", methods="GET")
 @protected()
-async def get_order(request):
-    orders = await db.all(Order.query)
+async def get_orders(request: Request):
+    # order_id = request.args.get("order_id", None)
+    orders = await Order.query.gino.all()
     schema = OrderSchema(many=True)
     result = schema.dump(orders)
     return result
 
 
-@describe(paths="/order", methods="POST")
+@describe(paths="/", methods="GET")
+@protected()
+async def get_order_by_id(request: Request):
+    order_id = request.args.get("order_id", None)
+    order = await Order.get(order_id)
+    return OrderSchema().dump(order)
+
+
+@describe(paths="/", methods="POST")
 async def add_order(request: Request):
-    print(request.json)
-    await Order.create()
-    return BaseResponse().dump({"success": True})
+    # print(request.json)
+    data = request.json
+    products = data.pop("products")
+    new_order = await Order.create(**data)
+    for product in products:
+        await OrderProducts.create(order_id=new_order.id, id=product["id"])
+    return NewOrderSchema().dump({"success": True, "id": new_order.id})
 
 
-add_route(orders, get_order)
+add_route(orders, get_orders)
+add_route(orders, get_order_by_id)
 add_route(orders, add_order)

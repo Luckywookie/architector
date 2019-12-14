@@ -16,7 +16,7 @@ users = Blueprint("user", url_prefix="/api/v1/user")
 @describe(paths="/all", methods="GET")
 @protected()
 async def get_users(request):
-    all_users = await db.all(User.query)
+    all_users = await User.query.gino.all()
     schema = UserSchema(many=True)
     result = schema.dump(all_users)
     return result

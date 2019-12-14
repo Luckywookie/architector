@@ -8,7 +8,11 @@ class OrderProductsSchema(Schema):
     description = fields.String()
 
 
-class OrderSchema(Schema):
+class NewOrderSchema(Schema):
+    id = fields.Integer()
+
+
+class OrderSchema(NewOrderSchema):
     total_cost = fields.Float()
     total_amount = fields.Integer()
     delivery = fields.Float()

@@ -7,7 +7,6 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     description = db.Column(db.String)
-    category = db.Column(db.String)
 
 
 class Product(db.Model):
@@ -16,5 +15,5 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
     description = db.Column(db.String)
-    category = db.Column(db.String)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), index=True)
 
