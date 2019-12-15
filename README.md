@@ -120,6 +120,70 @@ Response SUCCESS body:
 
 ### Catalog
 
+#### GET /categories
+
+Example: http://host:port/api/v1/categories
+
+Parameters: No
+
+Response SUCCESS body:
+
+`
+[
+    {
+        "description": "test-category-desc",
+        "id": 1,
+        "title": "test-category"
+    },
+    {
+        "description": "test-category-desc2",
+        "id": 2,
+        "title": "test-category2"
+    }
+]
+`
+
+
+#### POST /category
+
+Example: http://host:port/api/v1/category
+
+Parameters: 
+
+|   **Name**    |   **Type**    | **Mandatory** |
+| ------------- | ------------- | ------------- |
+|   title    |    STRING     |      YES      |
+|   description    |    STRING     |      YES      |
+
+
+Response SUCCESS body:
+
+`
+{
+    "success": true, "id": Integer
+}
+`
+
+#### DELETE /category
+
+Example: http://host:port/api/v1/category
+
+Parameters: 
+
+|   **Name**    |   **Type**    | **Mandatory** |
+| ------------- | ------------- | ------------- |
+|   id    |    STRING     |      YES      |
+
+
+Response SUCCESS body:
+
+`
+{
+    "success": true
+}
+
+
+
 #### GET /products
 
 Example: http://host:port/api/v1/products
@@ -133,4 +197,42 @@ Response SUCCESS body:
 `
 
 
+#### POST /product
+
+Example: http://host:port/api/v1/product
+
+Parameters: 
+
+|   **Name**    |   **Type**    | **Mandatory** |
+| ------------- | ------------- | ------------- |
+|   title    |    STRING     |      YES      |
+|   description    |    STRING     |      YES      |
+|   category_id    |    INTEGER     |      YES      |
+
+
+Response SUCCESS body:
+
+`
+{
+    "success": true, "id": Integer
+}
+`
+
+#### DELETE /product
+
+Example: http://host:port/api/v1/product
+
+Parameters: 
+
+|   **Name**    |   **Type**    | **Mandatory** |
+| ------------- | ------------- | ------------- |
+|   id    |    STRING     |      YES      |
+
+
+Response SUCCESS body:
+
+`
+{
+    "success": true
+}
 

@@ -23,12 +23,23 @@ async def get_product(request):
 
 @describe(paths="/product", methods="POST")
 @protected()
-async def add_product(request, title: str, description: str, category_id: str):
-    category = await Category.get(category_id)
+async def add_product(request):
+    category = await Category.get(request.json['category_id'])
     if not category:
         return BaseResponse().dump({"success": False, "error": "Category don't exist"})
-    new_product = await Product.create(title=title, description=description, category_id=category.id)
-    return NewProductSchema().dump({"success": True, "product_id": new_product.id})
+    new_product = await Product.create(
+        title=request.json['title'],
+        description=request.json['description'],
+        category_id=category.id
+    )
+    return NewProductSchema().dump({"success": True, "id": new_product.id})
+
+
+@describe(paths="/product", methods="DELETE")
+@protected()
+async def delete_product(request):
+    await Product.delete.where(Product.id == request.json['id']).gino.status()
+    return BaseResponse().dump({"success": True})
 
 
 @describe(paths="/categories", methods="GET")
@@ -40,12 +51,21 @@ async def get_categories(request: Request):
 
 @describe(paths="/category", methods="POST")
 @protected()
-async def add_category(request, title: str, description: str):
-    new_category = await Category.create(title=title, description=description)
+async def add_category(request):
+    new_category = await Category.create(title=request.json['title'], description=request.json['description'])
     return NewProductSchema().dump({"success": True, "id": new_category.id})
+
+
+@describe(paths="/category", methods="DELETE")
+@protected()
+async def delete_category(request):
+    await Category.delete.where(Category.id == request.json['id']).gino.status()
+    return BaseResponse().dump({"success": True})
 
 
 add_route(catalog, get_product)
 add_route(catalog, add_product)
+add_route(catalog, delete_product)
 add_route(catalog, add_category)
 add_route(catalog, get_categories)
+add_route(catalog, delete_category)
