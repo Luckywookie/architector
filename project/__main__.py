@@ -14,8 +14,8 @@ app = Sanic(load_env=False)
 
 
 def setup_database():
-    # app.config.DB_HOST = 'postgres'
-    app.config.DB_HOST = 'localhost'
+    app.config.DB_HOST = 'postgres'
+    # app.config.DB_HOST = 'localhost'
     app.config.DB_DATABASE = 'sanic_postgres'
     app.config.DB_USER = 'test_user'
     app.config.DB_PASSWORD = 'pwd0123456789'

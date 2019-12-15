@@ -30,6 +30,7 @@ async def get_order_by_id(request: Request):
 
 
 @describe(paths="/", methods="POST")
+@protected()
 async def add_order(request: Request):
     # print(request.json)
     data = request.json

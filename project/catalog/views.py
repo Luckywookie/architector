@@ -13,7 +13,6 @@ catalog = Blueprint("catalog", url_prefix="/api/v1")
 
 
 @describe(paths="/products", methods="GET")
-@protected()
 async def get_product(request):
     products = await Product.query.gino.all()
     for product in products:
@@ -23,6 +22,7 @@ async def get_product(request):
 
 
 @describe(paths="/product", methods="POST")
+@protected()
 async def add_product(request, title: str, description: str, category_id: str):
     category = await Category.get(category_id)
     if not category:
@@ -32,7 +32,6 @@ async def add_product(request, title: str, description: str, category_id: str):
 
 
 @describe(paths="/categories", methods="GET")
-@protected()
 async def get_categories(request: Request):
     categories = await Category.query.gino.all()
     schema = CategorySchema(many=True)
@@ -40,6 +39,7 @@ async def get_categories(request: Request):
 
 
 @describe(paths="/category", methods="POST")
+@protected()
 async def add_category(request, title: str, description: str):
     new_category = await Category.create(title=title, description=description)
     return NewProductSchema().dump({"success": True, "id": new_category.id})
