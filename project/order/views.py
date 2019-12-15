@@ -4,8 +4,8 @@ from sanic_jwt import protected
 from sanic_transmute import add_route
 from transmute_core import describe
 
-from order.models import Order, OrderProducts
-from order.schemas import OrderSchema, NewOrderSchema
+from project.order.models import Order, OrderProducts
+from project.order.schemas import OrderSchema, NewOrderSchema
 
 
 orders = Blueprint("order", url_prefix="/api/v1/order")

@@ -5,8 +5,8 @@ from sanic_jwt import exceptions, BaseEndpoint
 from transmute_core import default_context, describe, TransmuteFunction
 from sanic_transmute.swagger import get_swagger_spec, _add_blueprint_specs
 
-from user.models import User
-from utils.response import BaseResponse
+from project.user.models import User
+from project.utils.response import BaseResponse
 
 
 class Logout(BaseEndpoint, HTTPMethodView):

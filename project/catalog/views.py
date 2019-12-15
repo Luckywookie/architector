@@ -4,9 +4,9 @@ from sanic_jwt import protected
 from sanic_transmute import add_route
 from transmute_core import describe
 
-from catalog.models import Product, Category
-from catalog.schemas import ProductSchema, CategorySchema, NewProductSchema
-from utils.response import BaseResponse
+from project.catalog.models import Product, Category
+from project.catalog.schemas import ProductSchema, CategorySchema, NewProductSchema
+from project.utils.response import BaseResponse
 
 
 catalog = Blueprint("catalog", url_prefix="/api/v1")

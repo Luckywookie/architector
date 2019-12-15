@@ -4,10 +4,9 @@ from sanic_jwt import protected
 from sanic_transmute import add_route
 from transmute_core import describe
 
-from db import db
-from user.models import User
-from user.schemas import UserSchema
-from utils.response import BaseResponse
+from project.user.models import User
+from project.user.schemas import UserSchema
+from project.utils.response import BaseResponse
 
 
 users = Blueprint("user", url_prefix="/api/v1/user")

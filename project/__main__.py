@@ -1,12 +1,13 @@
 from sanic import Sanic
-from sanic_transmute import add_swagger, TransmuteFunction, default_context, describe
+from sanic_transmute import add_swagger
 from sanic_jwt import Initialize
-from sanic_transmute.swagger import get_swagger_spec
 
-from catalog.views import catalog
-from order.views import orders
 from project.db import db
+
+from project.catalog.views import catalog
+from project.order.views import orders
 from project.user.views import users
+
 from project.utils.auth import authenticate, setup_docs, Logout, auth_stub, refresh_stub, me_stub, auth_verify_stub
 
 app = Sanic(load_env=False)
@@ -65,7 +66,8 @@ def setup_database():
 
     @app.listener('after_server_stop')
     async def disconnect_from_db(*args, **kwargs):
-        await db.gino.drop_all()
+        # await db.gino.drop_all()
+        pass
 
 
 if __name__ == "__main__":
