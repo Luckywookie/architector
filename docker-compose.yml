@@ -19,9 +19,8 @@ services:
     volumes:
       - ./:/src
     restart: always
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
+    depends_on:
+      - postgres
     working_dir: /src
 #    environment:
 #      - SANIC_DB_HOST=postgres
