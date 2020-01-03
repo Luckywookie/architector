@@ -10,7 +10,7 @@ from project.user.views import users
 
 from project.utils.auth import authenticate, setup_docs, Logout, auth_stub, refresh_stub, me_stub, auth_verify_stub
 
-app = Sanic(load_env=False)
+app = Sanic(name='Market', load_env=False)
 
 
 def setup_database():

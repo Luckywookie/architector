@@ -14,20 +14,21 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
 
   market:
-    build:
-      context: .
+    image: vaultvulp/pipenv-ubuntu:3.8
     volumes:
-      - ./:/src
+      - ./:/opt/market/
+      - site-packages:/usr/local/lib/python3.8/site-packages
     restart: always
     depends_on:
       - postgres
-    working_dir: /src
+    working_dir: /opt/market/
 #    environment:
 #      - SANIC_DB_HOST=postgres
     ports:
-      - "8888:8888"
+      - 8888:8888
     links:
       - postgres
-
     command: bash -c "pipenv install --system -d && python -m project"
 
+volumes:
+  site-packages:
