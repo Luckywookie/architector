@@ -1,5 +1,10 @@
 # Education project - online store
 
+**Description**: Online store for sell products.
+Frontend and Nginx didn't realize it's only in plans. Works only PostgreSQL with Backend.
+
+![Schema](market.png)
+
 ## Development setup
 
 ### Prerequisites:
@@ -15,10 +20,7 @@
             2) Run `sudo chmod +x /usr/local/bin/docker-compose`
         3) Update current user groups
             1) Run `sudo groupadd docker && sudo usermod -aG docker $USER`
-2) Install [Python 3.7.4](https://www.python.org/downloads/)
-3) Install pipenv
-    
-    Run `pip install -U pipenv` 
+2) Install [Python 3.8.0] and pipenv
 
 ### Clone the Repo
 
