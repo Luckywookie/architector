@@ -3,9 +3,9 @@ version: '3.4'
 services:
 
   postgres:
-    image: "postgres:latest"
+    image: postgres:latest
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=pwd0123456789
@@ -29,6 +29,34 @@ services:
     links:
       - postgres
     command: bash -c "pipenv install --system -d && python -m project"
+
+  email:
+    image: vaultvulp/pipenv-ubuntu:3.8
+    volumes:
+      - ./:/opt/market/
+      - site-packages:/usr/local/lib/python3.8/site-packages
+    restart: always
+    depends_on:
+      - postfix
+    working_dir: /opt/market/
+    ports:
+      - 5000:5000
+    links:
+      - postgres
+    command: bash -c "pipenv install --system -d && python -m mail"
+
+  postfix:
+    image: catatnight/postfix:latest
+    ports:
+      - 25:25
+      - 587:587
+    volumes:
+      - ./main.cf:/etc/postfix/main.cf
+#      - /postfix/domainkeys:/etc/opendkim/domainkeys
+    environment:
+      - maildomain=yourdomain.com
+      - smtp_user=obelyh:obelyh
+    restart: always
 
 volumes:
   site-packages:

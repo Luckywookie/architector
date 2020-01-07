@@ -1,3 +1,4 @@
+import aiohttp
 from sanic import Blueprint
 from sanic.request import Request
 from sanic_jwt import protected
@@ -35,6 +36,14 @@ async def get_user(request: Request):
     return schema.dump(user)
 
 
+@describe(paths="/send_email", methods="GET")
+async def send_email(request: Request):
+    url = "http://email:5000/send_email"
+    async with aiohttp.ClientSession().get(url, verify_ssl=False) as response:
+        return await response.json()
+
+
 add_route(users, get_users)
 add_route(users, register)
 add_route(users, get_user)
+add_route(users, send_email)
