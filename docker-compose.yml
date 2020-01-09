@@ -37,26 +37,17 @@ services:
       - site-packages:/usr/local/lib/python3.8/site-packages
     restart: always
     depends_on:
-      - postfix
+      - mailhog
     working_dir: /opt/market/
     ports:
       - 5000:5000
-    links:
-      - postgres
     command: bash -c "pipenv install --system -d && python -m mail"
 
-  postfix:
-    image: catatnight/postfix:latest
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
     ports:
-      - 25:25
-      - 587:587
-    volumes:
-      - ./main.cf:/etc/postfix/main.cf
-#      - /postfix/domainkeys:/etc/opendkim/domainkeys
-    environment:
-      - maildomain=yourdomain.com
-      - smtp_user=obelyh:obelyh
-    restart: always
+      - 1025:1025 # SMTP server
+      - 8025:8025 # Web UI
 
 volumes:
   site-packages:

@@ -34,6 +34,9 @@ Run `docker-compose up -d`
 
 Go `http://host:8888/swagger`
 
+### Mail Service (View online emails)
+
+Go `http://0.0.0.0:8025`
 
 ### Request & Response Examples
 
