@@ -38,7 +38,7 @@ async def get_user(request: Request):
 
 @describe(paths="/send_email", methods="GET")
 async def send_email(request: Request):
-    url = "http://email:5000/send_email"
+    url = "http://email:6000/send_email"
     async with aiohttp.ClientSession().get(url, verify_ssl=False) as response:
         return await response.json()
 

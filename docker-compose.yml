@@ -22,8 +22,11 @@ services:
     depends_on:
       - postgres
     working_dir: /opt/market/
-#    environment:
-#      - SANIC_DB_HOST=postgres
+    environment:
+      - SANIC_DB_HOST=postgres
+      - SANIC_DB_DATABASE=sanic_postgres
+      - SANIC_DB_USER=test_user
+      - SANIC_DB_PASSWORD=pwd0123456789
     ports:
       - 8888:8888
     links:
@@ -33,15 +36,31 @@ services:
   email:
     image: vaultvulp/pipenv-ubuntu:3.8
     volumes:
-      - ./:/opt/market/
+      - ./:/opt/email/
       - site-packages:/usr/local/lib/python3.8/site-packages
     restart: always
     depends_on:
       - mailhog
-    working_dir: /opt/market/
+    working_dir: /opt/email/
     ports:
       - 5000:5000
     command: bash -c "pipenv install --system -d && python -m mail"
+
+  push:
+    image: vaultvulp/pipenv-ubuntu:3.8
+    volumes:
+      - ./:/opt/push/
+      - site-packages:/usr/local/lib/python3.8/site-packages
+    restart: always
+    environment:
+      - SANIC_BOT_TOKEN=
+      - SANIC_CHAT_ID=@mytestchannelotus
+    depends_on:
+      - mailhog
+    working_dir: /opt/push/
+    ports:
+      - 5555:5555
+    command: bash -c "pipenv install --system -d && python -m push"
 
   mailhog:
     image: mailhog/mailhog:v1.0.0

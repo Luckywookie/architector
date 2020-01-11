@@ -3,11 +3,13 @@ import smtplib
 from sanic import Sanic
 from sanic.response import json
 
-app = Sanic(name='Email', load_env=False)
+app = Sanic(name='Email')
+
 
 @app.route("/", methods=['GET'])
 async def root(request):
     return json({})
+
 
 @app.route("/send_email", methods=['GET'])
 async def send_email(request):

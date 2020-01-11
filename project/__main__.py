@@ -10,17 +10,10 @@ from project.user.views import users
 
 from project.utils.auth import authenticate, setup_docs, Logout, auth_stub, refresh_stub, me_stub, auth_verify_stub
 
-app = Sanic(name='Market', load_env=False)
+app = Sanic(name='Market')
 
 
 def setup_database():
-    app.config.DB_HOST = 'postgres'
-    # app.config.DB_HOST = 'localhost'
-    app.config.DB_DATABASE = 'sanic_postgres'
-    app.config.DB_USER = 'test_user'
-    app.config.DB_PASSWORD = 'pwd0123456789'
-    # app.config.DB_ECHO = True
-
     db.init_app(app)
 
     jwt_funcs = {
