@@ -5,6 +5,9 @@ Frontend and Nginx didn't realize it's only in plans. Works only PostgreSQL with
 
 ![Schema](market.png)
 
+## Registration services
+![Schema](registration.png)
+
 ## Development setup
 
 ### Prerequisites:
