@@ -27,6 +27,7 @@ services:
       - SANIC_DB_DATABASE=sanic_postgres
       - SANIC_DB_USER=test_user
       - SANIC_DB_PASSWORD=pwd0123456789
+      - SANIC_CHAT_ID=${CHAT_ID}
     ports:
       - 8888:8888
     links:
@@ -53,8 +54,8 @@ services:
       - site-packages:/usr/local/lib/python3.8/site-packages
     restart: always
     environment:
-      - SANIC_BOT_TOKEN=
-      - SANIC_CHAT_ID=@mytestchannelotus
+      - SANIC_BOT_TOKEN=${BOT_TOKEN}
+      - SANIC_PROXY=${PROXY}
     depends_on:
       - mailhog
     working_dir: /opt/push/

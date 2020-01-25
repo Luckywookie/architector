@@ -8,6 +8,7 @@ from transmute_core import describe
 from project.user.models import User
 from project.user.schemas import UserSchema
 from project.utils.response import BaseResponse
+from project.notifications import send_email, send_telegram
 
 
 users = Blueprint("user", url_prefix="/api/v1/user")
@@ -25,6 +26,8 @@ async def get_users(request):
 @describe(paths="/register", methods="POST")
 async def register(request, username: str, password: str):
     await User.create(username=username, password=password)
+    await send_email(recipient=username, message="Congratulation for register")
+    await send_telegram(request.app.config.CHAT_ID, message="Congratulation for register")
     return BaseResponse().dump({"success": True})
 
 
@@ -36,14 +39,14 @@ async def get_user(request: Request):
     return schema.dump(user)
 
 
-@describe(paths="/send_email", methods="GET")
-async def send_email(request: Request):
-    url = "http://email:6000/send_email"
-    async with aiohttp.ClientSession().get(url, verify_ssl=False) as response:
-        return await response.json()
+# @describe(paths="/send_email", methods="GET")
+# async def send_email(request: Request):
+#     url = "http://email:6000/send_email"
+#     async with aiohttp.ClientSession().get(url, verify_ssl=False) as response:
+#         return await response.json()
 
 
 add_route(users, get_users)
 add_route(users, register)
 add_route(users, get_user)
-add_route(users, send_email)
+# add_route(users, send_email)

@@ -10,13 +10,14 @@ async def root(request):
     return json({})
 
 
-@app.route("/send_push", methods=['GET'])
+@app.route("/send_push", methods=['POST'])
 async def send_push(request):
+    chat_id = request.json.get("chat_id")
+    message = request.json.get("message")
     bot_token = app.config.BOT_TOKEN
-    chat_id = app.config.CHAT_ID
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}"
-    req = f'{url}&text={request.args.get("text")}'
-    async with aiohttp.ClientSession().get(req, verify_ssl=False, proxy="http://130.0.25.46:34964") as response:
+    req = f'{url}&text={message}'
+    async with aiohttp.ClientSession().get(req, verify_ssl=False, proxy=app.config.PROXY) as response:
         res = await response.json()
     return json(res)
 
