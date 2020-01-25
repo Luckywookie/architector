@@ -3,9 +3,9 @@ version: '3.4'
 services:
 
   postgres:
-    image: "postgres:latest"
+    image: postgres:latest
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=pwd0123456789
@@ -22,13 +22,52 @@ services:
     depends_on:
       - postgres
     working_dir: /opt/market/
-#    environment:
-#      - SANIC_DB_HOST=postgres
+    environment:
+      - SANIC_DB_HOST=postgres
+      - SANIC_DB_DATABASE=sanic_postgres
+      - SANIC_DB_USER=test_user
+      - SANIC_DB_PASSWORD=pwd0123456789
+      - SANIC_CHAT_ID=${CHAT_ID}
     ports:
       - 8888:8888
     links:
       - postgres
     command: bash -c "pipenv install --system -d && python -m project"
+
+  email:
+    image: vaultvulp/pipenv-ubuntu:3.8
+    volumes:
+      - ./:/opt/email/
+      - site-packages:/usr/local/lib/python3.8/site-packages
+    restart: always
+    depends_on:
+      - mailhog
+    working_dir: /opt/email/
+    ports:
+      - 5000:5000
+    command: bash -c "pipenv install --system -d && python -m mail"
+
+  push:
+    image: vaultvulp/pipenv-ubuntu:3.8
+    volumes:
+      - ./:/opt/push/
+      - site-packages:/usr/local/lib/python3.8/site-packages
+    restart: always
+    environment:
+      - SANIC_BOT_TOKEN=${BOT_TOKEN}
+      - SANIC_PROXY=${PROXY}
+    depends_on:
+      - mailhog
+    working_dir: /opt/push/
+    ports:
+      - 5555:5555
+    command: bash -c "pipenv install --system -d && python -m push"
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    ports:
+      - 1025:1025 # SMTP server
+      - 8025:8025 # Web UI
 
 volumes:
   site-packages:

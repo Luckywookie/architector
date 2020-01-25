@@ -13,6 +13,7 @@ gino = "*"
 psycopg2-binary = "==2.8.4"
 marshmallow = "*"
 sanic-jwt = "*"
+aiohttp = "*"
 
 [requires]
 python_version = "3.8"

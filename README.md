@@ -36,10 +36,15 @@ Run `docker-compose up -d`
 
 Go `http://host:8888/swagger`
 
+### Mail Service (View online emails)
+
+Go `http://0.0.0.0:8025`
 
 ### Request & Response Examples
 
 #### POST /user/register
+
+After registration send notification to email and telegram message to your chat 
 
 Example: http://host:port/api/v1/user/register
 
