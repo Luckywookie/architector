@@ -42,6 +42,8 @@ Go `http://0.0.0.0:8025`
 
 #### POST /user/register
 
+After registration send notification to email and telegram message to your chat 
+
 Example: http://host:port/api/v1/user/register
 
 Parameters:
