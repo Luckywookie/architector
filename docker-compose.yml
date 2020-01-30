@@ -28,6 +28,8 @@ services:
       - SANIC_DB_USER=test_user
       - SANIC_DB_PASSWORD=pwd0123456789
       - SANIC_CHAT_ID=${CHAT_ID}
+      - SANIC_EMAIL_SERVICE=http://email:5000/send_email
+      - SANIC_PUSH_SERVICE=http://push:5000/send_push
     ports:
       - 8888:8888
     links:
