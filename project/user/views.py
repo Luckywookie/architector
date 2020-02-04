@@ -26,8 +26,9 @@ async def get_users(request):
 @describe(paths="/register", methods="POST")
 async def register(request, username: str, password: str):
     await User.create(username=username, password=password)
-    await send_email(request.app.config, recipient=username, message="Congratulation for register")
-    await send_telegram(request.app.config, message="Congratulation for register")
+    message = f"Congratulation for register, {username}"
+    await send_email(request.app.config, recipient=username, message=message)
+    await send_telegram(request.app.config, message=message)
     return BaseResponse().dump({"success": True})
 
 
