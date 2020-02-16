@@ -10,8 +10,8 @@ services:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=pwd0123456789
       - POSTGRES_DB=sanic_postgres
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+#    volumes:
+#      - ./postgres-data:/var/lib/postgresql/data
 
   market:
     image: vaultvulp/pipenv-ubuntu:3.8
@@ -37,17 +37,18 @@ services:
     command: bash -c "pipenv install --system -d && python -m project"
 
   email:
-    image: vaultvulp/pipenv-ubuntu:3.8
+    build:
+      context: mail
+      dockerfile: Dockerfile
     volumes:
-      - ./:/opt/email/
-      - site-packages:/usr/local/lib/python3.8/site-packages
+      - ./mail/:/opt/app/
     restart: always
     depends_on:
       - mailhog
-    working_dir: /opt/email/
+    working_dir: /opt/
     ports:
       - 5000:5000
-    command: bash -c "pipenv install --system -d && python -m mail"
+    command: bash -c "python -m app"
 
   push:
     image: vaultvulp/pipenv-ubuntu:3.8
