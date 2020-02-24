@@ -41,6 +41,27 @@ services:
       - postgres
     command: bash -c "python -m project"
 
+  catalog:
+    build:
+      context: catalog
+      dockerfile: Dockerfile
+    volumes:
+      - ./catalog/:/opt/catalog/
+    restart: always
+    depends_on:
+      - postgres
+    working_dir: /opt/
+    environment:
+      - SANIC_DB_HOST=postgres
+      - SANIC_DB_DATABASE=sanic_postgres__catalog
+      - SANIC_DB_USER=catalog__user
+      - SANIC_DB_PASSWORD=pwd__catalog_0123456789
+    ports:
+      - 8000:8000
+    links:
+      - postgres
+    command: bash -c "python -m catalog"
+
   email:
     build:
       context: mail
