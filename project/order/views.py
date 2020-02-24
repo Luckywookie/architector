@@ -11,7 +11,7 @@ from project.order.schemas import OrderSchema, NewOrderSchema
 orders = Blueprint("order", url_prefix="/api/v1/order")
 
 
-@describe(paths="/all", methods="GET")
+@describe(paths="/all", methods="GET", tags=['Order'])
 @protected()
 async def get_orders(request: Request):
     # order_id = request.args.get("order_id", None)
@@ -21,7 +21,7 @@ async def get_orders(request: Request):
     return result
 
 
-@describe(paths="/", methods="GET")
+@describe(paths="/", methods="GET", tags=['Order'])
 @protected()
 async def get_order_by_id(request: Request):
     order_id = request.args.get("order_id", None)
@@ -29,7 +29,7 @@ async def get_order_by_id(request: Request):
     return OrderSchema().dump(order)
 
 
-@describe(paths="/", methods="POST")
+@describe(paths="/", methods="POST", tags=['Order'])
 @protected()
 async def add_order(request: Request):
     # print(request.json)

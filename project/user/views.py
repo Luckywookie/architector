@@ -14,7 +14,7 @@ from project.notifications import send_email, send_telegram
 users = Blueprint("user", url_prefix="/api/v1/user")
 
 
-@describe(paths="/all", methods="GET")
+@describe(paths="/all", methods="GET", tags=['User'])
 @protected()
 async def get_users(request):
     all_users = await User.query.gino.all()
@@ -23,7 +23,7 @@ async def get_users(request):
     return result
 
 
-@describe(paths="/register", methods="POST")
+@describe(paths="/register", methods="POST", tags=['User'])
 async def register(request, username: str, password: str):
     await User.create(username=username, password=password)
     message = f"Congratulation for register, {username}"
@@ -32,7 +32,7 @@ async def register(request, username: str, password: str):
     return BaseResponse().dump({"success": True})
 
 
-@describe(paths="/", methods="GET")
+@describe(paths="/", methods="GET", tags=['User'])
 @protected()
 async def get_user(request: Request):
     user = await User.query.where(User.username == request.args.get("username", None)).gino.first()
