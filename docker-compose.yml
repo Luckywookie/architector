@@ -14,14 +14,19 @@ services:
 #      - ./postgres-data:/var/lib/postgresql/data
 
   market:
-    image: vaultvulp/pipenv-ubuntu:3.8
+    build:
+      context: project
+      dockerfile: Dockerfile
     volumes:
-      - ./:/opt/market/
-      - site-packages:/usr/local/lib/python3.8/site-packages
+      - ./project/:/opt/project/
+#    image: vaultvulp/pipenv-ubuntu
+#    volumes:
+#      - ./:/opt/market/
+#      - site-packages:/usr/local/lib/python3.8/site-packages
     restart: always
     depends_on:
       - postgres
-    working_dir: /opt/market/
+    working_dir: /opt/
     environment:
       - SANIC_DB_HOST=postgres
       - SANIC_DB_DATABASE=sanic_postgres
@@ -34,7 +39,7 @@ services:
       - 8888:8888
     links:
       - postgres
-    command: bash -c "pipenv install --system -d && python -m project"
+    command: bash -c "python -m project"
 
   email:
     build:
@@ -51,20 +56,19 @@ services:
     command: bash -c "python -m app"
 
   push:
-    image: vaultvulp/pipenv-ubuntu:3.8
+    build:
+      context: push
+      dockerfile: Dockerfile
     volumes:
-      - ./:/opt/push/
-      - site-packages:/usr/local/lib/python3.8/site-packages
+      - ./push/:/opt/push/
     restart: always
     environment:
       - SANIC_BOT_TOKEN=${BOT_TOKEN}
       - SANIC_PROXY=${PROXY}
-    depends_on:
-      - mailhog
-    working_dir: /opt/push/
+    working_dir: /opt/
     ports:
       - 5555:5555
-    command: bash -c "pipenv install --system -d && python -m push"
+    command: bash -c "python -m push"
 
   mailhog:
     image: mailhog/mailhog:v1.0.0

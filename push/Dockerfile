@@ -1,8 +1,11 @@
-FROM vaultvulp/pipenv-ubuntu:3.8
+FROM python:3.8
 
-COPY ./ /opt/push
-WORKDIR /opt/push
+RUN pip install -U pip \
+ && pip install pipenv
 
-RUN pipenv install -d
+COPY . /opt/push/
+WORKDIR /opt/push/
 
-CMD ["python", "-m", "push"]
+RUN pipenv install --system -d
+
+#CMD ["python", "-m", "push"]

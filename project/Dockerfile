@@ -3,11 +3,9 @@ FROM python:3.8
 RUN pip install -U pip \
  && pip install pipenv
 
+COPY . /opt/market/
+WORKDIR /opt/market/
 
-ADD . /opt/app/
-WORKDIR /opt/app/
 RUN pipenv install --system -d
 
-#WORKDIR /opt/
-
-#CMD ["python", "-m", "app"]
+#CMD ["python", "-m", "push"]
