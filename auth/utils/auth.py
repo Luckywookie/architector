@@ -1,5 +1,6 @@
 from sanic import Sanic
 from sanic.request import Request
+from sanic.response import HTTPResponse
 from sanic.views import HTTPMethodView
 from sanic_jwt import exceptions, BaseEndpoint
 from transmute_core import default_context, describe, TransmuteFunction
@@ -7,19 +8,30 @@ from sanic_transmute.swagger import get_swagger_spec, _add_blueprint_specs
 
 from auth.models import User
 from auth.utils.response import BaseResponse
+from auth.utils.router import Route
+
+
+async def retrieve_user(request, payload, *args, **kwargs):
+    if payload:
+        user_id = payload.get('user_id', None)
+        user = await User.get(user_id)
+        print('user:', user)
+        return user
+    else:
+        return None
 
 
 class Logout(BaseEndpoint, HTTPMethodView):
     """Custom sanic-jwt Auth endpoint"""
 
-    async def post(self, request: Request, user, authorization: str = None, **__):
-        pass
+    # async def post(self, request: Request, user, authorization: str = None, **__):
+    async def post(self, request: Request, authorization: str = None, **__):
+        return HTTPResponse('Done')
 
 
-def auth_stub(username: str, password: str, merchant_id: str = None):
+def auth_stub(username: str, password: str):
     """
     Generate a pair of access and refresh tokens
-    To generate merchant token, pass `merchant_id` field and use test credentials: `merch` and `passwd`.
     """
 
 

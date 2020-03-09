@@ -1,9 +1,7 @@
 from sanic import Sanic
 from sanic_transmute import add_swagger
-from views import catalog
-from gino.ext.sanic import Gino
-
-db = Gino()
+from catalog.views import catalog
+from catalog.db import db
 
 app = Sanic(name='Catalog')
 
@@ -25,10 +23,11 @@ if __name__ == "__main__":
     app.blueprint(catalog)
     add_swagger(app, '/swagger_json', '/swagger')
     setup_database()
+    port = app.config.SERVER_PORT
 
     app.run(
         host="0.0.0.0",
-        port=8888,
+        port=port,
         debug=True,
         auto_reload=True,
     )

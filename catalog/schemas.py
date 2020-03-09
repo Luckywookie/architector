@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, pprint
 
-from project.utils.response import BaseResponse
+from catalog.utils.response import BaseResponse
 
 
 class CategorySchema(Schema):

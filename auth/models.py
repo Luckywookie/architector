@@ -10,3 +10,7 @@ class User(db.Model):
 
     def __repr__(self):
         return '{}<{}>'.format(self.username, self.id)
+
+    def to_dict(self):
+        properties = ['user_id', 'username']
+        return {prop: self.id if prop == 'user_id' else getattr(self, prop, None) for prop in properties}
