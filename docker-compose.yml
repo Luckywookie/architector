@@ -6,8 +6,10 @@ services:
     image: postgres:latest
     ports:
       - 5432:5432
+    volumes:
+      - ./docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
     environment:
-      - POSTGRES_USER=test_user
+      - POSTGRES_USER=market_user
       - POSTGRES_PASSWORD=pwd0123456789
       - POSTGRES_DB=sanic_postgres
 #    volumes:
@@ -30,11 +32,8 @@ services:
     environment:
       - SANIC_DB_HOST=postgres
       - SANIC_DB_DATABASE=sanic_postgres
-      - SANIC_DB_USER=test_user
+      - SANIC_DB_USER=market_user
       - SANIC_DB_PASSWORD=pwd0123456789
-      - SANIC_CHAT_ID=${CHAT_ID}
-      - SANIC_EMAIL_SERVICE=http://email:5000/send_email
-      - SANIC_PUSH_SERVICE=http://push:5000/send_push
     ports:
       - 8888:8888
     links:
@@ -52,15 +51,41 @@ services:
       - postgres
     working_dir: /opt/
     environment:
+      - SANIC_SERVER_PORT=8002
       - SANIC_DB_HOST=postgres
       - SANIC_DB_DATABASE=sanic_postgres__catalog
-      - SANIC_DB_USER=catalog__user
+      - SANIC_DB_USER=catalog_user
       - SANIC_DB_PASSWORD=pwd__catalog_0123456789
     ports:
-      - 8000:8000
+      - 8002:8002
     links:
       - postgres
     command: bash -c "python -m catalog"
+
+  auth:
+    build:
+      context: auth
+      dockerfile: Dockerfile
+    volumes:
+      - ./auth/:/opt/auth/
+    restart: always
+    depends_on:
+      - postgres
+    working_dir: /opt/
+    environment:
+      - SANIC_SERVER_PORT=8001
+      - SANIC_DB_HOST=postgres
+      - SANIC_DB_DATABASE=sanic_postgres__auth
+      - SANIC_DB_USER=market_user
+      - SANIC_DB_PASSWORD=pwd0123456789
+      - SANIC_CHAT_ID=${CHAT_ID}
+      - SANIC_EMAIL_SERVICE=http://email:5000/send_email
+      - SANIC_PUSH_SERVICE=http://push:5000/send_push
+    ports:
+      - 8001:8001
+    links:
+      - postgres
+    command: bash -c "python -m auth"
 
   email:
     build:

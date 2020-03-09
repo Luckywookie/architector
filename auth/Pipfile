@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+sanic = "*"
+sanic-transmute = "*"
+gino = "*"
+#psycopg2 = "*"
+psycopg2-binary = "==2.8.4"
+marshmallow = "*"
+sanic-jwt = "*"
+aiohttp = "*"
+
+[requires]
+python_version = "3.8"
