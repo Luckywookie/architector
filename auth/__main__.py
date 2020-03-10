@@ -17,7 +17,7 @@ def init_auth():
             'auth': True,
         },
         auth_stub: {
-            'path': '',
+            'path': 'auth',
             'methods': 'POST',
         },
         refresh_stub: {
@@ -26,11 +26,11 @@ def init_auth():
             'auth': True,
             'header_parameters': ['refresh_token'],
             'parameter_descriptions': {
-                'refresh_token': 'Cookie: refresh_token=refresh token'
+                'refresh_token': 'refresh token'
             },
         },
         me_stub: {
-            'path': 'me',
+            'path': '/auth/me',
             'methods': 'GET',
             'auth': True,
         },

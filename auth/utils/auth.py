@@ -58,7 +58,7 @@ def modify_path(path):
 def describe_func(func, auth: bool = False, **kwargs):
     if auth:
         kwargs.setdefault('header_parameters', []).append('authorization')
-        kwargs.setdefault('parameter_descriptions', {}).update({'authorization': r'Cookie: jwt=access token'})
+        kwargs.setdefault('parameter_descriptions', {}).update({'authorization': r'Bearer: access token'})
         response_types = kwargs.setdefault('response_types', {})
         response_types.update({401: {'description': 'Authentication failed', 'type': str}})
     return describe(**kwargs)(func)

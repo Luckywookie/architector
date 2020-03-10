@@ -1,9 +1,33 @@
 from sanic import Sanic
+from sanic_jwt import Authentication, Initialize
 from sanic_transmute import add_swagger
 from catalog.views import catalog
 from catalog.db import db
 
 app = Sanic(name='Catalog')
+
+
+class MyAuthentication(Authentication):
+    async def store_refresh_token(self, *args, **kwargs):
+        return
+
+    async def retrieve_refresh_token(self, *args, **kwargs):
+        return
+
+    async def authenticate(self, *args, **kwargs):
+        return
+
+    async def retrieve_user(self, *args, **kwargs):
+        return
+
+    def extract_payload(self, request, verify=True, *args, **kwargs):
+        return
+
+
+def setup_auth():
+    Initialize(
+        app, authentication_class=MyAuthentication, refresh_token_enabled=True
+    )
 
 
 def setup_database():
@@ -20,6 +44,7 @@ def setup_database():
 
 
 if __name__ == "__main__":
+    setup_auth()
     app.blueprint(catalog)
     add_swagger(app, '/swagger_json', '/swagger')
     setup_database()
