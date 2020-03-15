@@ -8,6 +8,15 @@ Frontend and Nginx didn't realize it's only in plans. Works only PostgreSQL with
 ## Registration services
 ![Schema](registration.png)
 
+## Catalog services through Auth service 
+![Schema](catalog.png)
+
+## Services list
+
+- Authorization and authentication on PORT: 8001
+- Catalog on PORT: 8002
+- Market on PORT: 8888
+
 ## Development setup
 
 ### Prerequisites:
