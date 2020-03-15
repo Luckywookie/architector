@@ -1,13 +1,17 @@
+import aiohttp
 from sanic import Sanic
 from sanic_jwt import Authentication, Initialize
 from sanic_transmute import add_swagger
 from catalog.views import catalog
 from catalog.db import db
 
+
 app = Sanic(name='Catalog')
 
 
 class MyAuthentication(Authentication):
+    my_token = None
+
     async def store_refresh_token(self, *args, **kwargs):
         return
 
@@ -15,10 +19,39 @@ class MyAuthentication(Authentication):
         return
 
     async def authenticate(self, *args, **kwargs):
-        return
+        print('authenticate')
+        request = {'username': 'test-user', 'password': 'test-password'}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                    'http://auth:8001/api/v1/auth',
+                    json=request,
+                    verify_ssl=False,
+                    timeout=10
+            ) as response:
+                res = await response.json()
+                self.my_token = res['access_token']
+                return res
+
+    async def generate_access_token(self,  *args, **kwargs):
+        print('generate_access_token')
+        return self.my_token
 
     async def retrieve_user(self, *args, **kwargs):
-        return
+        print('retrieve_user', self.my_token)
+        headers = {'Authorization': f'Bearer {self.my_token}'}
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                    'http://auth:8001/api/v1/auth/me',
+                    verify_ssl=False,
+                    timeout=10,
+                    headers=headers
+            ) as response:
+                res = await response.json()
+                return res['me']
+
+    # async def is_authenticated(self, *args, **kwargs):
+    #     result = await self.retrieve_user()
+    #     return bool(result.get('me'))
 
     def extract_payload(self, request, verify=True, *args, **kwargs):
         return
@@ -26,7 +59,10 @@ class MyAuthentication(Authentication):
 
 def setup_auth():
     Initialize(
-        app, authentication_class=MyAuthentication, refresh_token_enabled=True
+        app,
+        authentication_class=MyAuthentication,
+        refresh_token_enabled=True,
+        url_prefix='/api/v1/auth',
     )
 
 
