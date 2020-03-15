@@ -13,9 +13,11 @@ Frontend and Nginx didn't realize it's only in plans. Works only PostgreSQL with
 
 ## Services list
 
+### Swagger available host:port/swagger
+
 - Authorization and authentication on PORT: 8001
 - Catalog on PORT: 8002
-- Market on PORT: 8888
+- Market(Order) on PORT: 8888
 
 ## Development setup
 
