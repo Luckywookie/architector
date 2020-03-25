@@ -122,5 +122,17 @@ services:
       - 1025:1025 # SMTP server
       - 8025:8025 # Web UI
 
+  websocket:
+    build:
+      context: websocket
+      dockerfile: Dockerfile
+    volumes:
+      - ./websocket/:/opt/websocket/
+    restart: always
+    working_dir: /opt/
+    ports:
+      - 3000:3000
+    command: bash -c "python -m websocket"
+
 volumes:
   site-packages:

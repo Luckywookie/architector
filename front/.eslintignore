@@ -1,0 +1,7 @@
+/.git
+node_modules
+/.github
+/scripts
+/public
+/config
+babel.config.js
